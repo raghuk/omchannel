@@ -16,7 +16,7 @@ export default class AppSdk {
             }
         });
 
-        result.getInfo = () => this._client.get(`/posts/10`);
+        result.getShows = () => this._client.get(`/posts/10`);
 
         return result;
     }

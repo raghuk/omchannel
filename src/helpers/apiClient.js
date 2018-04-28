@@ -4,6 +4,8 @@ import {api} from '../config';
 const TIMEOUT = 10000;
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
+let Promise = require('es6-promise').Promise;
+
 
 class ApiClient {
     constructor() {

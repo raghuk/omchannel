@@ -38,7 +38,7 @@ const ChannelTab = StackNavigator({
         screen: ShowList,
         path: '/shows/list',
         navigationOptions: ({ navigation }) => ({
-            title: 'Branches List',
+            title: `${navigation.state.params.show.title}`,
             headerTintColor: '#f9f9f9',
             headerStyle: {
                 backgroundColor: '#00838f'
@@ -55,7 +55,7 @@ const ChannelTab = StackNavigator({
         screen: ShowPlaylist,
         path: '/shows/list/info',
         navigationOptions: ({ navigation }) => ({
-            title: `${navigation.state.params.branch.name}`,
+            title: `${navigation.state.params.list.title}`,
             headerTintColor: '#f9f9f9',
             headerStyle: {
                 backgroundColor: '#00838f'

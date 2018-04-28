@@ -18,11 +18,3 @@ export function appReset() {
         type: types.APP_RESET
     };
 }
-
-export function loadShows() {
-    return {
-        type: [types.INFO_LOAD, types.INFO_LOAD_SUCCESS, types.INFO_LOAD_FAILURE],
-        promise: (sdk) => sdk.getInfo(),
-        loader: true
-    };
-}

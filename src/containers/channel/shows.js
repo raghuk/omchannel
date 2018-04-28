@@ -1,11 +1,12 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {ScrollView, ActivityIndicator, ImageBackground, Text} from 'react-native';
+import {View, ScrollView, ActivityIndicator, ImageBackground, Text, TouchableOpacity} from 'react-native';
+import {Card} from 'react-native-elements';
 
 import {isEmpty} from 'lodash';
 
-import {loadShows} from '../../actions/app';
+import {loadShows} from '../../actions/channel';
 import {getShows} from '../../resources/selectors';
 
 import styles from './styles';
@@ -34,16 +35,40 @@ class Shows extends Component {
             this.props.loadShows();
         } else {
             console.log('shows already loaded, loading from props');
+            this.setState({ isReady: true });
         }
     }
 
     componentWillReceiveProps(newProps) {
-        console.log('new props available');
         this.setState({ isReady: true });
     }
 
-    renderList = (items) => {
-        return (<Text style={styles.title}>Shows</Text>);
+    _onCardPress = (item) => {
+        this.props.navigation.navigate('ShowList', {show: item});
+    }
+
+    _renderList = (items) => {
+        return (
+            <View style={styles.listView}>
+                {items.map(i => this._renderItem(i))}
+            </View>
+        );
+    }
+
+    _renderItem = (item) => {
+        let count = item.playlists.length;
+
+        return (
+            <TouchableOpacity key={item.title} onPress={() => this._onCardPress(item)}>
+                <Card
+                    image={{uri: item.thumbnailUrl}}
+                    imageStyle={styles.cardImage}
+                    containerStyle={styles.cardContainer}>
+                    <Text numberOfLines={1} style={styles.cardTitle}>{item.title}</Text>
+                    <Text numberOfLines={1} style={styles.cardSubtitle}>{count} Shows</Text>
+                </Card>
+            </TouchableOpacity>
+        );
     }
 
     render() {
@@ -60,7 +85,7 @@ class Shows extends Component {
 
         return (
             <ScrollView style={styles.content}>
-                {this.state.isReady ? this.renderList(items) : loadingInfo}
+                {this.state.isReady ? this._renderList(items) : loadingInfo}
             </ScrollView>
         );
     }
