@@ -6,7 +6,7 @@ import {Button, Icon} from 'react-native-elements';
 
 import Sidebar from './components/sidebar';
 import {About} from './containers/info';
-import {Shows, ShowList, ShowPlaylist} from './containers/channel';
+import {Shows, ShowList, ShowPlaylist, ShowPlayer} from './containers/channel';
 
 
 const deviceWidth = Dimensions.get('window').width;
@@ -55,7 +55,24 @@ const ChannelTab = StackNavigator({
         screen: ShowPlaylist,
         path: '/shows/list/info',
         navigationOptions: ({ navigation }) => ({
-            title: `${navigation.state.params.list.title}`,
+            title: `${navigation.state.params.playlist.title}`,
+            headerTintColor: '#f9f9f9',
+            headerStyle: {
+                backgroundColor: '#00838f'
+            },
+            headerTitleStyle: {
+                color: '#fdfdfd', fontSize: 20, fontWeight: 'normal', fontFamily: 'Opensans', marginHorizontal: 5
+            },
+            headerBackTitleStyle: {
+                color: '#fdfdfd'
+            }
+        })
+    },
+    ShowPlayer: {
+        screen: ShowPlayer,
+        path: '/show/player',
+        navigationOptions: ({ navigation }) => ({
+            title: `${navigation.state.params.video.title}`,
             headerTintColor: '#f9f9f9',
             headerStyle: {
                 backgroundColor: '#00838f'

@@ -37,10 +37,7 @@ class ApiClient {
     }
 
     formatUrl(path) {
-        let adjustedPath = (path[0] !== '/') ? '/' + path : path;
-        let url = `http://${api.host}${adjustedPath}`;
-
-        return url;
+        return api[path];
     }
 }
 

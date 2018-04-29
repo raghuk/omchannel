@@ -4,41 +4,42 @@ import {connect} from 'react-redux';
 import {View, ScrollView, ActivityIndicator, ImageBackground, Text, TouchableOpacity} from 'react-native';
 import {Card} from 'react-native-elements';
 
-import {isEmpty, replace} from 'lodash';
+import {isEmpty} from 'lodash';
 
-import {loadPlayList, resetPlayList} from '../../actions/channel';
-import {getApiKey, getPlayList} from '../../resources/selectors';
+import {loadShowList, resetShowList} from '../../actions/channel';
+import {getApiKey, getShowList} from '../../resources/selectors';
 
 import styles from './styles';
 
 
-class ShowPlaylist extends Component {
+class ShowList extends Component {
     static propTypes = {
         apiKey: PropTypes.string,
-        playList: PropTypes.arrayOf(PropTypes.object),
-        loadPlayList: PropTypes.func,
-        resetPlayList: PropTypes.func
+        showList: PropTypes.arrayOf(PropTypes.object),
+        loadShowList: PropTypes.func,
+        resetShowList: PropTypes.func
     }
 
     static defaultProps = {
         apiKey: '',
-        playList: []
+        showList: []
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            isReady: false,
-            playlist: this.props.navigation.state.params.playlist
+            isReady: false
         };
     }
 
     componentWillMount() {
-        if (isEmpty(this.props.playList)) {
-            this.props.loadPlayList(this.state.playlist.id, this.props.apiKey);
+        let ids = this.props.navigation.state.params.show.playlists || [];
+
+        if (isEmpty(this.props.showList)) {
+            this.props.loadShowList(ids, this.props.apiKey);
         } else {
-            console.log('play list already loaded, loading from props');
+            console.log('show list already loaded, loading from props');
             this.setState({ isReady: true });
         }
     }
@@ -48,11 +49,11 @@ class ShowPlaylist extends Component {
     }
 
     componentWillUnmount() {
-        this.props.resetPlayList();
+        this.props.resetShowList();
     }
 
     _onCardPress = (item) => {
-        this.props.navigation.navigate('ShowPlayer', {video: item});
+        this.props.navigation.navigate('ShowPlaylist', {playlist: item});
     }
 
     _renderList = (items) => {
@@ -70,14 +71,15 @@ class ShowPlaylist extends Component {
                     image={{uri: item.thumbnailUrl}}
                     imageStyle={styles.cardImage}
                     containerStyle={styles.cardContainer}>
-                    <Text numberOfLines={3} style={styles.cardSubtitle}>{item.title}</Text>
+                    <Text numberOfLines={1} style={styles.cardTitle}>{item.title}</Text>
+                    <Text numberOfLines={1} style={styles.cardSubtitle}>{item.count} Episodes</Text>
                 </Card>
             </TouchableOpacity>
         );
     }
 
     render() {
-        const items = this.props.playList;
+        const items = this.props.showList;
 
         let loadingInfo = (
             <ImageBackground
@@ -99,14 +101,14 @@ class ShowPlaylist extends Component {
 
 const mapStateToProps = state => ({
     apiKey: getApiKey(state),
-    playList: getPlayList(state)
+    showList: getShowList(state)
 });
 
 function bindAction(dispatch) {
     return {
-        loadPlayList: (id, key) => dispatch(loadPlayList(id, key)),
-        resetPlayList: () => dispatch(resetPlayList())
+        loadShowList: (ids, key) => dispatch(loadShowList(ids, key)),
+        resetShowList: () => dispatch(resetShowList())
     };
 }
 
-export default connect(mapStateToProps, bindAction)(ShowPlaylist);
+export default connect(mapStateToProps, bindAction)(ShowList);
