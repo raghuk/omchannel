@@ -12,7 +12,7 @@ class Sidebar extends Component {
             <View style={styles.view}>
                 <Image square style={styles.drawerImage} source={require('../../../assets/images/logo-cover.png')} />
                 <Image style={styles.drawerCover} source={require('../../../assets/images/drawer-cover.png')} />
-                <ScrollView>
+                <ScrollView style={styles.listView}>
                     <DrawerItems
                         {...this.props}
                         activeTintColor='#b5342b'

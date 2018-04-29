@@ -8,6 +8,9 @@ export default {
     view: {
         flex: 1
     },
+    listView: {
+        backgroundColor: '#f1f5f8'
+    },
     drawerCover: {
         alignSelf: 'stretch',
         // resizeMode: 'cover',

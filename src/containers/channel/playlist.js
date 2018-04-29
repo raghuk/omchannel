@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import {View, ScrollView, ActivityIndicator, ImageBackground, Text, TouchableOpacity} from 'react-native';
 import {Card} from 'react-native-elements';
 
-import {isEmpty, replace} from 'lodash';
+import {isEmpty} from 'lodash';
 
 import {loadPlayList, resetPlayList} from '../../actions/channel';
 import {getApiKey, getPlayList} from '../../resources/selectors';

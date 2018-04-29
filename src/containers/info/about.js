@@ -13,7 +13,7 @@ class About extends Component {
         return (
             <ScrollView style={styles.content}>
                 <Text style={styles.title}>Godlywood Studio</Text>
-                <Text style={styles.note} onPress={() => this._handleOpenWithLinking('http://www.godlywoodstudio.org/')}>www.godlywoodstudio.org/</Text>
+                <Text style={styles.note} onPress={() => this._handleOpenWithLinking('http://www.godlywoodstudio.org/')}>www.godlywoodstudio.org</Text>
                 <Text style={styles.info}>
                     {`We facilitates television programs to revolutionize the impact the impact of the media on the individual and collective consciousness. we produces Talk shows and different spiritual programs in English, Hindi, and other regional languages including Gujarati, Malayalam, Telugu, Punjabi, Kannada, Tamil and Bengali etc.
                     \nWe provides additional performances in larger quantities which allow viewers to enjoy spiritual uplifting programs. We assists 20 departments like writing, scripting, production, direction, animation and editing in both national and regional programs. These spiritual programs leaves an indelible imprint on the mind of the viewers.`}

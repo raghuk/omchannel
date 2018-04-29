@@ -1,10 +1,22 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {View, WebView} from 'react-native';
+
+import {getApiKey} from '../../resources/selectors';
 
 import styles from './styles';
 
 
 class ShowPlayer extends Component {
+    static propTypes = {
+        apiKey: PropTypes.string
+    }
+
+    static defaultProps = {
+        apiKey: ''
+    }
+
     constructor(props) {
         super(props);
 
@@ -14,7 +26,7 @@ class ShowPlayer extends Component {
     }
 
     render() {
-        let url = `https://www.youtube.com/watch?v=${this.state.video.videoId}`;
+        let url = `https://www.youtube.com/embed/${this.state.video.videoId}`;
 
         return (
             <View style={styles.content}>
@@ -23,10 +35,14 @@ class ShowPlayer extends Component {
                     startInLoadingState
                     scalesPageToFit
                     javaScriptEnabled
-                    style={{ flex: 1 }} />
+                    style={{flex: 1}} />
             </View>
         );
     }
 }
 
-export default ShowPlayer;
+const mapStateToProps = state => ({
+    apiKey: getApiKey(state)
+});
+
+export default connect(mapStateToProps, null)(ShowPlayer);
