@@ -5,7 +5,7 @@ import {Dimensions, View} from 'react-native';
 import {Button, Icon} from 'react-native-elements';
 
 import Sidebar from './components/sidebar';
-import {About} from './containers/info';
+import {About, LiveTv} from './containers/info';
 import {Shows, ShowList, ShowPlaylist, ShowPlayer} from './containers/channel';
 
 
@@ -112,6 +112,31 @@ const AboutTab = StackNavigator({
     }
 });
 
+const LiveTab = StackNavigator({
+    Contact: {
+        screen: LiveTv,
+        path: '/live',
+        navigationOptions: ({ navigation }) => ({
+            title: 'Godlywood Studio - Live',
+            headerTintColor: '#f9f9f9',
+            headerLeft: (
+                <Button
+                    title=''
+                    large={true}
+                    buttonStyle={{backgroundColor: '#00838f', padding: 3}}
+                    icon={{name: 'md-menu', type: 'ionicon', color: '#fdfdfd'}}
+                    onPress={() => navigation.navigate('DrawerOpen')} />
+            ),
+            headerStyle: {
+                backgroundColor: '#00838f'
+            },
+            headerTitleStyle: {
+                color: '#fdfdfd', fontSize: 20, fontWeight: 'normal', fontFamily: 'Opensans', marginHorizontal: 5
+            }
+        })
+    }
+});
+
 
 const MainNavigator = DrawerNavigator(
     {
@@ -121,6 +146,14 @@ const MainNavigator = DrawerNavigator(
             navigationOptions: () => ({
                 drawerLabel: 'Home',
                 drawerIcon: <Icon name='ios-home' type='ionicon' color='#00838f' size={30} />
+            })
+        },
+        LiveTab: {
+            screen: LiveTab,
+            path: '/live',
+            navigationOptions: () => ({
+                drawerLabel: 'Live TV',
+                drawerIcon: <Icon name='ios-videocam' type='ionicon' color='#00838f' size={28} />
             })
         },
         AboutTab: {
