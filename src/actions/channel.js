@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-import {isEmpty, isArray, join} from 'lodash';
+import {isEmpty, isArray, join, sortedUniq} from 'lodash';
 
 
 export function loadShows() {
@@ -15,12 +15,13 @@ export function resetShows() {
     };
 }
 
-export function loadShowList(ids = [], key = '') {
-    ids = (isArray(ids) && !isEmpty(ids)) ? join(ids, ',') : '';
+export function loadShowList(ids = [], key = '', removableTitles = []) {
+    ids = (isArray(ids) && !isEmpty(ids)) ? join(sortedUniq(ids), ',') : '';
 
     return {
         type: [types.SHOWLIST_LOAD, types.SHOWLIST_LOAD_SUCCESS, types.SHOWLIST_LOAD_FAILURE],
-        promise: (sdk) => sdk.getShowList(ids, key)
+        promise: (sdk) => sdk.getShowList(ids, key),
+        removableTitles
     };
 }
 
@@ -30,10 +31,11 @@ export function resetShowList() {
     };
 }
 
-export function loadPlayList(id = '', key = '') {
+export function loadPlayList(id = '', key = '', removableTitles = []) {
     return {
         type: [types.PLAYLIST_LOAD, types.PLAYLIST_LOAD_SUCCESS, types.PLAYLIST_LOAD_FAILURE],
-        promise: (sdk) => sdk.getPlayList(id, key)
+        promise: (sdk) => sdk.getPlayList(id, key),
+        removableTitles
     };
 }
 

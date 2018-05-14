@@ -17,16 +17,9 @@ class ShowPlayer extends Component {
         apiKey: ''
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            video: this.props.navigation.state.params.video
-        };
-    }
-
     render() {
-        let url = `https://www.youtube.com/embed/${this.state.video.videoId}`;
+        let video = this.props.navigation.state.params.video;
+        let url = `https://www.youtube.com/embed/${video.videoId}`;
 
         return (
             <View style={styles.content}>

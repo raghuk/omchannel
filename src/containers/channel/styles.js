@@ -24,17 +24,24 @@ export default {
         marginBottom: 10,
         marginLeft: 5
     },
+    cardHeight: {
+        height: height * 0.3
+    },
     cardImage: {
         height: (width * 0.4)/1.5
     },
     cardTitle: {
-        fontSize: 16,
+        fontSize: 14,
         fontFamily: 'Opensans'
     },
     cardSubtitle: {
-        fontSize: 14,
+        fontSize: 12,
         fontFamily: 'Opensans',
-        marginTop: 5,
-        marginBottom: 5
+        marginTop: 5
+    },
+    errorInfo: {
+        color: '#cc0000',
+        fontSize: 14,
+        fontFamily: 'Opensans'
     }
 };

@@ -4,6 +4,14 @@ export function getApiKey(state) {
     return state.channel.info.yApiKey || '';
 }
 
+export function getRemovableTitles(state) {
+    return state.channel.info.removableTitles || [];
+}
+
+export function getUpdatedAt(state) {
+    return state.channel.info.updatedAt || 0;
+}
+
 export function getShows(state) {
     return state.channel.info.items || [];
 }

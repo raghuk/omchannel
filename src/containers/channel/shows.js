@@ -1,13 +1,14 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {View, ScrollView, ActivityIndicator, ImageBackground, Text, TouchableOpacity} from 'react-native';
+import {View, ScrollView, ActivityIndicator, ImageBackground, Text, TouchableOpacity, Alert, NetInfo} from 'react-native';
 import {Card} from 'react-native-elements';
 
 import {isEmpty} from 'lodash';
+import {getTime} from '../../helpers/misc';
 
 import {loadShows} from '../../actions/channel';
-import {getShows} from '../../resources/selectors';
+import {getUpdatedAt, getShows} from '../../resources/selectors';
 
 import styles from './styles';
 
@@ -15,32 +16,45 @@ import styles from './styles';
 class Shows extends Component {
     static propTypes = {
         shows: PropTypes.arrayOf(PropTypes.object),
+        updatedAt: PropTypes.number,
         loadShows: PropTypes.func
     }
 
     static defaultProps = {
-        shows: []
+        shows: [],
+        updatedAt: 0
     }
 
     constructor(props) {
         super(props);
 
         this.state = {
-            isReady: false
+            isReady: false,
+            isConnected: true
         };
     }
 
-    componentWillMount() {
-        if (isEmpty(this.props.shows)) {
-            this.props.loadShows();
-        } else {
-            console.log('shows already loaded, loading from props');
-            this.setState({ isReady: true });
-        }
+    componentDidMount() {
+        NetInfo.isConnected.fetch().then(isConnected => {
+            if (isConnected) {
+                let diff = getTime(new Date(this.props.updatedAt), new Date());
+
+                if (isEmpty(this.props.shows) || (diff > 2)) {
+                    this.props.loadShows();
+                } else {
+                    console.log('shows already loaded, loading from props');
+                    this.setState({ isReady: true, isConnected: true });
+                }
+            } else {
+                this.setState({ isReady: true, isConnected: false })
+            }
+
+            return isConnected;
+        }).catch((e) => { console.log(e); });
     }
 
     componentWillReceiveProps(newProps) {
-        this.setState({ isReady: true });
+        this.setState({ isReady: true, isConnected: true });
     }
 
     _onCardPress = (item) => {
@@ -71,6 +85,14 @@ class Shows extends Component {
         );
     }
 
+    _showAlert = () => {
+        Alert.alert(
+            'Internet Error',
+            'Please check your internet connection and try again later.',
+            [{text: 'OK', onPress: () => console.log('OK')}],
+            { cancelable: false });
+    }
+
     render() {
         const items = this.props.shows;
 
@@ -85,7 +107,7 @@ class Shows extends Component {
 
         return (
             <ScrollView style={styles.content}>
-                {this.state.isReady ? this._renderList(items) : loadingInfo}
+                {this.state.isReady ? (this.state.isConnected ? this._renderList(items) : this._showAlert()) : loadingInfo}
             </ScrollView>
         );
     }
@@ -93,7 +115,8 @@ class Shows extends Component {
 
 
 const mapStateToProps = state => ({
-    shows: getShows(state)
+    shows: getShows(state),
+    updatedAt: getUpdatedAt(state)
 });
 
 function bindAction(dispatch) {

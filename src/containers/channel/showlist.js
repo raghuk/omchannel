@@ -7,7 +7,7 @@ import {Card} from 'react-native-elements';
 import {isEmpty} from 'lodash';
 
 import {loadShowList, resetShowList} from '../../actions/channel';
-import {getApiKey, getShowList} from '../../resources/selectors';
+import {getApiKey, getRemovableTitles, getShowList} from '../../resources/selectors';
 
 import styles from './styles';
 
@@ -16,13 +16,15 @@ class ShowList extends Component {
     static propTypes = {
         apiKey: PropTypes.string,
         showList: PropTypes.arrayOf(PropTypes.object),
+        removableTitles: PropTypes.array,
         loadShowList: PropTypes.func,
         resetShowList: PropTypes.func
     }
 
     static defaultProps = {
         apiKey: '',
-        showList: []
+        showList: [],
+        removableTitles: []
     }
 
     constructor(props) {
@@ -33,11 +35,11 @@ class ShowList extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         let ids = this.props.navigation.state.params.show.playlists || [];
 
         if (isEmpty(this.props.showList)) {
-            this.props.loadShowList(ids, this.props.apiKey);
+            this.props.loadShowList(ids, this.props.apiKey, this.props.removableTitles);
         } else {
             console.log('show list already loaded, loading from props');
             this.setState({ isReady: true });
@@ -70,8 +72,8 @@ class ShowList extends Component {
                 <Card
                     image={{uri: item.thumbnailUrl}}
                     imageStyle={styles.cardImage}
-                    containerStyle={styles.cardContainer}>
-                    <Text numberOfLines={1} style={styles.cardTitle}>{item.title}</Text>
+                    containerStyle={[styles.cardContainer, styles.cardHeight]}>
+                    <Text numberOfLines={2} style={styles.cardTitle}>{item.title}</Text>
                     <Text numberOfLines={1} style={styles.cardSubtitle}>{item.count} Episodes</Text>
                 </Card>
             </TouchableOpacity>
@@ -101,12 +103,13 @@ class ShowList extends Component {
 
 const mapStateToProps = state => ({
     apiKey: getApiKey(state),
-    showList: getShowList(state)
+    showList: getShowList(state),
+    removableTitles: getRemovableTitles(state)
 });
 
 function bindAction(dispatch) {
     return {
-        loadShowList: (ids, key) => dispatch(loadShowList(ids, key)),
+        loadShowList: (ids, key, removableTitles) => dispatch(loadShowList(ids, key, removableTitles)),
         resetShowList: () => dispatch(resetShowList())
     };
 }

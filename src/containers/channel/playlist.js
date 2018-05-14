@@ -7,7 +7,7 @@ import {Card} from 'react-native-elements';
 import {isEmpty} from 'lodash';
 
 import {loadPlayList, resetPlayList} from '../../actions/channel';
-import {getApiKey, getPlayList} from '../../resources/selectors';
+import {getApiKey, getRemovableTitles, getPlayList} from '../../resources/selectors';
 
 import styles from './styles';
 
@@ -22,7 +22,8 @@ class ShowPlaylist extends Component {
 
     static defaultProps = {
         apiKey: '',
-        playList: []
+        playList: [],
+        removableTitles: []
     }
 
     constructor(props) {
@@ -34,9 +35,9 @@ class ShowPlaylist extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         if (isEmpty(this.props.playList)) {
-            this.props.loadPlayList(this.state.playlist.id, this.props.apiKey);
+            this.props.loadPlayList(this.state.playlist.id, this.props.apiKey, this.props.removableTitles);
         } else {
             console.log('play list already loaded, loading from props');
             this.setState({ isReady: true });
@@ -69,7 +70,7 @@ class ShowPlaylist extends Component {
                 <Card
                     image={{uri: item.thumbnailUrl}}
                     imageStyle={styles.cardImage}
-                    containerStyle={styles.cardContainer}>
+                    containerStyle={[styles.cardContainer, styles.cardHeight]}>
                     <Text numberOfLines={3} style={styles.cardSubtitle}>{item.title}</Text>
                 </Card>
             </TouchableOpacity>
@@ -99,12 +100,13 @@ class ShowPlaylist extends Component {
 
 const mapStateToProps = state => ({
     apiKey: getApiKey(state),
-    playList: getPlayList(state)
+    playList: getPlayList(state),
+    removableTitles: getRemovableTitles(state)
 });
 
 function bindAction(dispatch) {
     return {
-        loadPlayList: (id, key) => dispatch(loadPlayList(id, key)),
+        loadPlayList: (id, key, removableTitles) => dispatch(loadPlayList(id, key, removableTitles)),
         resetPlayList: () => dispatch(resetPlayList())
     };
 }

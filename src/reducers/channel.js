@@ -24,7 +24,7 @@ const info = (state = initialState.info, action) => {
 const showlist = (state = initialState.showlist, action) => {
     switch (action.type) {
         case types.SHOWLIST_LOAD_SUCCESS:
-            return Object.assign([], state, transformShowlist(action.result));
+            return Object.assign([], state, transformShowlist(action.result, action.removableTitles));
         case types.SHOWLIST_RESET:
             return [];
         default:
@@ -35,7 +35,7 @@ const showlist = (state = initialState.showlist, action) => {
 const playlist = (state = initialState.playlist, action) => {
     switch (action.type) {
         case types.PLAYLIST_LOAD_SUCCESS:
-            return Object.assign([], state, transformPlaylist(action.result));
+            return Object.assign([], state, transformPlaylist(action.result, action.removableTitles));
         case types.PLAYLIST_RESET:
             return [];
         default:

@@ -33,7 +33,7 @@
         },
         "android": {
             "package": "org.godlywoodstudio.madhuban.oss",
-            "versionCode": 30,
+            "versionCode": 30
         },
         "ios": {
             "bundleIdentifier": "org.godlywoodstudio.madhuban.oss",
