@@ -86,7 +86,7 @@ class ShowList extends Component {
         let loadingInfo = (
             <ImageBackground
                 imageStyle={{resizeMode: 'cover'}}
-                style={{flex: 1, justifyContent: 'center'}}
+                style={styles.loader}
                 source={require('../../../assets/images/loader.png')}>
                 <ActivityIndicator size="large" color="#5C5679" />
             </ImageBackground>

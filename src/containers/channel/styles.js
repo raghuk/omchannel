@@ -8,6 +8,12 @@ export default {
         flex: 1,
         backgroundColor: '#f1f5f8'
     },
+    loader: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: height * 0.75
+    },
     listView: {
         flex: 1,
         flexDirection: 'row',
