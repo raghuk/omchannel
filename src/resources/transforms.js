@@ -1,4 +1,4 @@
-import {isEmpty, replace, trim, upperFirst, forEach} from 'lodash';
+import {isEmpty, replace, trim, upperFirst, forEach, split, concat} from 'lodash';
 
 const base64 = require('base-64');
 const utf8 = require('utf8');
@@ -46,21 +46,23 @@ export function transformShowlist(data, removableTitles) {
     return result;
 }
 
-export function transformPlaylist(data, removableTitles) {
+export function transformPlaylist(data, removableTitles, title) {
     let result = {};
 
     if (!isEmpty(data)) {
         let content = data.items;
+        title = concat(split(title, ' '), ['|', '-']);
 
         content = content.map(i => {
             let snippet = i.snippet;
-            let title = snippet.title;
+            let videoTitle = snippet.title;
 
-            forEach(removableTitles, (value) => { title = replace(title, new RegExp(value, 'gi'), ''); });
+            forEach(removableTitles, (value) => { videoTitle = replace(videoTitle, new RegExp(value, 'gi'), ''); });
+            forEach(title, (value) => { videoTitle = replace(videoTitle, value, ''); });
 
             return {
                 id: i.id,
-                title: upperFirst(trim(title)),
+                title: upperFirst(trim(videoTitle)),
                 thumbnailUrl: snippet.thumbnails.medium.url, //default, medium, high, standard, maxres
                 publishedAt: snippet.publishedAt,
                 channelId: snippet.channelId,

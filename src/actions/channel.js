@@ -31,10 +31,11 @@ export function resetShowList() {
     };
 }
 
-export function loadPlayList(id = '', key = '', removableTitles = []) {
+export function loadPlayList(title = '', id = '', key = '', removableTitles = []) {
     return {
         type: [types.PLAYLIST_LOAD, types.PLAYLIST_LOAD_SUCCESS, types.PLAYLIST_LOAD_FAILURE],
         promise: (sdk) => sdk.getPlayList(id, key),
+        title,
         removableTitles
     };
 }

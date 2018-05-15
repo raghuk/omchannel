@@ -81,7 +81,7 @@ class ShowList extends Component {
     }
 
     render() {
-        const items = this.props.showList;
+        let items = this.props.showList;
 
         let loadingInfo = (
             <ImageBackground

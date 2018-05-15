@@ -30,14 +30,15 @@ class ShowPlaylist extends Component {
         super(props);
 
         this.state = {
-            isReady: false,
-            playlist: this.props.navigation.state.params.playlist
+            isReady: false
         };
     }
 
     componentDidMount() {
+        let playlist = this.props.navigation.state.params.playlist;
+
         if (isEmpty(this.props.playList)) {
-            this.props.loadPlayList(this.state.playlist.id, this.props.apiKey, this.props.removableTitles);
+            this.props.loadPlayList(playlist.title, playlist.id, this.props.apiKey, this.props.removableTitles);
         } else {
             console.log('play list already loaded, loading from props');
             this.setState({ isReady: true });
@@ -78,7 +79,7 @@ class ShowPlaylist extends Component {
     }
 
     render() {
-        const items = this.props.playList;
+        let items = this.props.playList;
 
         let loadingInfo = (
             <ImageBackground
@@ -106,7 +107,7 @@ const mapStateToProps = state => ({
 
 function bindAction(dispatch) {
     return {
-        loadPlayList: (id, key, removableTitles) => dispatch(loadPlayList(id, key, removableTitles)),
+        loadPlayList: (title, id, key, removableTitles) => dispatch(loadPlayList(title, id, key, removableTitles)),
         resetPlayList: () => dispatch(resetPlayList())
     };
 }

@@ -35,7 +35,7 @@ const showlist = (state = initialState.showlist, action) => {
 const playlist = (state = initialState.playlist, action) => {
     switch (action.type) {
         case types.PLAYLIST_LOAD_SUCCESS:
-            return Object.assign([], state, transformPlaylist(action.result, action.removableTitles));
+            return Object.assign([], state, transformPlaylist(action.result, action.removableTitles, action.title));
         case types.PLAYLIST_RESET:
             return [];
         default:
