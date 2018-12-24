@@ -1,43 +1,42 @@
 {
-    "expo": {
-        "name": "Om Shanti Channel",
-        "description": "Om Shanti Channel app brings Brahma Kumaris talk shows in different languages to help in raising ones Spiritual Awareness.",
-        "slug": "omshanti-channel-app",
-        "privacy": "public",
-        "sdkVersion": "26.0.0",
-        "version": "1.0.5",
-        "platforms": ["ios", "android"],
-        "orientation": "portrait",
-        "primaryColor": "#f1f5f8",
-        "icon": "./assets/icons/app-icon.png",
-        "splash": {
-            "image": "./assets/images/splash.png",
-            "resizeMode": "cover",
-            "backgroundColor": "#ffffff"
-        },
-        "notification": {
-            "icon": "./assets/icons/notification-icon.png",
-            "color": "#000000"
-        },
-        "androidStatusBar": {
-            "barStyle": "dark-content",
-            "backgroundColor": "#f1f5f8"
-        },
-        "assetBundlePatterns": ["./assets/images/*", "./assets/fonts/*", "node_modules/@expo/vector-icons/fonts/Ionicons.ttf"],
-        "packagerOpts": {
-            "assetExts": ["ttf", "mp4", "mp3"]
-        },
-        "updates": {
-            "enabled": true,
-            "fallbackToCacheTimeout": 0
-        },
-        "android": {
-            "package": "org.godlywoodstudio.madhuban.oss",
-            "versionCode": 30
-        },
-        "ios": {
-            "bundleIdentifier": "org.godlywoodstudio.madhuban.oss",
-            "supportsTablet": true
-        }
+  "expo": {
+    "name": "Om Shanti Channel",
+    "description": "Om Shanti Channel app brings Brahma Kumaris talk shows in different languages to help in raising ones Spiritual Awareness.",
+    "slug": "omshanti-channel-app",
+    "privacy": "public",
+    "sdkVersion": "31.0.0",
+    "version": "1.0.6",
+    "platforms": ["ios", "android"],
+    "orientation": "portrait",
+    "primaryColor": "#f1f5f8",
+    "icon": "./assets/icons/icon.png",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "notification": {
+      "icon": "./assets/icons/notification.png",
+      "color": "#000000"
+    },
+    "androidStatusBar": {
+      "barStyle": "dark-content",
+      "backgroundColor": "#f1f5f8"
+    },
+    "assetBundlePatterns": ["**/*", "./assets/images/*", "./assets/fonts/*"],
+    "packagerOpts": {
+      "assetExts": ["ttf", "mp4", "mp3"]
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "android": {
+      "package": "org.godlywoodstudio.madhuban.oss",
+      "versionCode": 32
+    },
+    "ios": {
+        "bundleIdentifier": "org.godlywoodstudio.madhuban.oss",
+        "supportsTablet": true
     }
+  }
 }

@@ -1,49 +1,55 @@
-import React, {Component} from 'react';
-import {AppLoading, Asset, Font} from 'expo';
-import {Ionicons} from '@expo/vector-icons';
+/* eslint-disable global-require */
+import React, { Component } from 'react';
+import { AppLoading, Asset, Font, Icon } from 'expo';
 
 import Main from './src';
 
 
-export default class App extends Component {
-    constructor(props) {
-        super(props);
+class App extends Component {
+  state = {
+    isLoadingComplete: false
+  };
 
-        this.state = {
-            isReady: false
-        };
+  _loadResourcesAsync = async () => (
+    Promise.all([
+      Asset.loadAsync([
+        require('./assets/images/drawer-cover.png'),
+        require('./assets/images/loader.png'),
+        require('./assets/images/logo-cover.png'),
+        require('./assets/images/splash.png')
+      ]),
+      Font.loadAsync({
+        ...Icon.Ionicons.font,
+        Opensans: require('./assets/fonts/Opensans.ttf'),
+        Titillium: require('./assets/fonts/Titillium.ttf')
+      })
+    ])
+  )
+
+  _handleLoadingError = (error) => {
+    // eslint-disable-next-line no-console
+    console.warn(error);
+  };
+
+  _handleFinishLoading = () => {
+    this.setState({ isLoadingComplete: true });
+  };
+
+  render() {
+    const { isLoadingComplete } = this.state;
+
+    if (!isLoadingComplete) {
+      return (
+        <AppLoading
+          startAsync={this._loadResourcesAsync}
+          onError={this._handleLoadingError}
+          onFinish={this._handleFinishLoading}
+        />
+      );
     }
 
-    _cacheFonts(fonts) {
-        return fonts.map(font => Font.loadAsync(font));
-    }
-
-    _loadAssetsAsync = async () => {
-        const fontAssets = this._cacheFonts([
-            ...Ionicons.font,
-            {'Opensans': require('./assets/fonts/Opensans.ttf') }
-        ]);
-
-        const imageAssets = Asset.loadAsync([
-            require('./assets/images/logo-cover.png'),
-            require('./assets/images/drawer-cover.png'),
-            require('./assets/images/splash.png'),
-            require('./assets/images/loader.png')
-        ]);
-
-        await Promise.all([imageAssets, ...fontAssets]);
-    };
-
-    render() {
-        if (!this.state.isReady) {
-            return (
-                <AppLoading
-                    startAsync={this._loadAssetsAsync}
-                    onFinish={() => this.setState({ isReady: true })}
-                    onError={(error) => console.warn(error)} />
-            );
-        }
-
-        return <Main />;
-    }
+    return <Main />;
+  }
 }
+
+export default App;
