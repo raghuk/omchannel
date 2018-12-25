@@ -16,6 +16,7 @@ class App extends Component {
         require('./assets/images/drawer-cover.png'),
         require('./assets/images/loader.png'),
         require('./assets/images/logo-cover.png'),
+        require('./assets/images/player.jpg'),
         require('./assets/images/splash.png')
       ]),
       Font.loadAsync({

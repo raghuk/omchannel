@@ -33,7 +33,11 @@ export default StyleSheet.create({
   },
   videoContainer: {
     height: 175,
-    padding: 10
+    margin: 10,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#efefef',
+    ...getPlatformElevation(2)
   },
   cardContainer: {
     width: width * 0.40,

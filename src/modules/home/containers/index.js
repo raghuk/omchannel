@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, ScrollView, ActivityIndicator, ImageBackground, Text, Alert, NetInfo, FlatList, WebView, TouchableWithoutFeedback } from 'react-native';
+import { View, ScrollView, ActivityIndicator, ImageBackground, Text, Alert, NetInfo, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { Card } from 'react-native-elements';
 import { isEmpty } from 'lodash';
+
+import { Video } from 'expo';
+import VideoPlayer from '@expo/videoplayer';
 
 import { loadShows } from '../../shows/store/actions';
 import { loadSongs } from '../../songs/store/actions';
@@ -11,9 +14,11 @@ import { getUpdatedAt, getShows } from '../../shows/store/selectors';
 import { getSongs } from '../../songs/store/selectors';
 import { getTime } from '../../../helpers';
 
+import { WEBCAST_LIVE_URL } from '../../../setup/config';
 import styles from './styles';
 
 const loaderImage = require('../../../../assets/images/loader.png');
+const playerImage = require('../../../../assets/images/player.jpg');
 
 
 class Home extends Component {
@@ -36,7 +41,8 @@ class Home extends Component {
 
       this.state = {
         isReady: false,
-        isConnected: true
+        isConnected: true,
+        showLive: false
       };
     }
 
@@ -68,18 +74,11 @@ class Home extends Component {
 
     renderContent = () => {
       const { shows, songs } = this.props;
-      const url = 'http://www.apps.omshantitv.org/livetv/';
 
       return (
         <View style={{ flex: 1 }}>
           <View style={[styles.content, styles.videoContainer]}>
-            <WebView
-              source={{ uri: url }}
-              startInLoadingState
-              scalesPageToFit
-              javaScriptEnabled
-              style={{ flex: 1 }}
-            />
+            {this.renderPlayer()}
           </View>
 
           <View style={styles.content}>
@@ -92,6 +91,41 @@ class Home extends Component {
             {this.renderList(songs, 'songs')}
           </View>
         </View>
+      );
+    }
+
+    renderPlayer = () => {
+      const { showLive } = this.state;
+
+      if (showLive) {
+        return (
+          <View style={{ flex: 1, justifyContent: 'center', borderRadius: 10, overflow: 'hidden' }}>
+            <VideoPlayer
+              videoProps={{
+                shouldPlay: true,
+                resizeMode: Video.RESIZE_MODE_CONTAIN,
+                source: {
+                  uri: WEBCAST_LIVE_URL
+                }
+              }}
+              showControlsOnLoad={false}
+              isPortrait
+              switchToLandscape={this.switchToLandscape}
+              switchToPortrait={this.switchToPortrait}
+              playFromPositionMillis={0}
+            />
+          </View>
+        );
+      }
+
+      return (
+        <TouchableWithoutFeedback key="player" onPress={() => this.onPlayPress()}>
+          <ImageBackground
+            imageStyle={{ resizeMode: 'cover' }}
+            style={{ flex: 1, justifyContent: 'center', borderRadius: 10, overflow: 'hidden' }}
+            source={playerImage}
+          />
+        </TouchableWithoutFeedback>
       );
     }
 
@@ -121,6 +155,8 @@ class Home extends Component {
         </TouchableWithoutFeedback>
       );
     }
+
+    onPlayPress = () => this.setState({ showLive: true });
 
     onCardPress = (item, name) => {
       const { navigation } = this.props;

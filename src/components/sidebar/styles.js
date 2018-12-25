@@ -9,6 +9,7 @@ export default StyleSheet.create({
     backgroundColor: '#f1f5f8'
   },
   view: {
+    paddingTop: 20,
     backgroundColor: '#f1f5f8'
   },
   listView: {
@@ -32,7 +33,7 @@ export default StyleSheet.create({
   },
   label: {
     color: '#323c46',
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: 'Opensans',
     fontWeight: 'normal',
     marginLeft: 5

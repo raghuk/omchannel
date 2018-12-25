@@ -12,6 +12,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo/videoplayer": "^0.4.0",
     "axios": "^0.18.0",
     "base-64": "^0.1.0",
     "comment-json": "^1.1.3",

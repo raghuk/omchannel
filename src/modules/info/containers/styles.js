@@ -5,7 +5,8 @@ const { height } = Dimensions.get('window');
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f1f5f8'
+    backgroundColor: '#f1f5f8',
+    overflow: 'hidden'
   },
   content: {
     flex: 1,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Platform, StatusBar, SafeAreaView, ImageBackground, NetInfo } from 'react-native';
+import { StatusBar, SafeAreaView, ImageBackground, NetInfo } from 'react-native';
 
 import MainNavigator from './navigation';
 import { actions as appActions } from '../modules/app';
@@ -48,7 +48,7 @@ class Setup extends Component {
 
     return (
       <SafeAreaView style={styles.droidSafeArea} forceInset={{ top: 'top', horizontal: 'never' }}>
-        { Platform.OS === 'ios' && <StatusBar translucent barStyle="dark-content" backgroundColor="#ecf0f1" /> }
+        <StatusBar translucent barStyle="dark-content" backgroundColor="#373737" />
         { isReady ? <MainNavigator uriPrefix="/oschannel" /> : loadingInfo }
       </SafeAreaView>
     );
