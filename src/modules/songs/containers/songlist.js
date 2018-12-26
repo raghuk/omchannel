@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { View, ScrollView, ActivityIndicator, ImageBackground, Text, TouchableWithoutFeedback } from 'react-native';
 import { Card } from 'react-native-elements';
 
-import { isEmpty } from 'lodash';
-
 import { loadSongList, resetSongList } from '../store/actions';
 import { getApiKey, getRemovableTitles, getSongList, getErrorStatus } from '../store/selectors';
 
@@ -40,15 +38,10 @@ class SongList extends Component {
     }
 
     componentDidMount() {
-      const { apiKey, songList, removableTitles, loadSongList, navigation } = this.props;
+      const { apiKey, removableTitles, loadSongList, navigation } = this.props;
       const ids = navigation.state.params.song.playlists || [];
 
-      if (isEmpty(songList)) {
-        loadSongList(ids, apiKey, removableTitles);
-      } else {
-        console.log('song list already loaded, loading from props');
-        this.setState({ isReady: true });
-      }
+      loadSongList(ids, apiKey, removableTitles);
     }
 
     componentWillReceiveProps() {

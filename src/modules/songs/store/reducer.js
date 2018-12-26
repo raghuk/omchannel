@@ -13,7 +13,7 @@ const initialState = {
 const info = (state = initialState.info, action) => {
   switch (action.type) {
     case types.SONGS_LOAD_SUCCESS:
-      return Object.assign({}, state, transformSongInfo(action.data));
+      return Object.assign({}, transformSongInfo(action.data));
     case types.SONGS_RESET:
       return {};
     default:
@@ -24,7 +24,7 @@ const info = (state = initialState.info, action) => {
 const songlist = (state = initialState.songlist, action) => {
   switch (action.type) {
     case types.SONGLIST_LOAD_SUCCESS:
-      return Object.assign([], state, transformSonglist(action.data, action.removableTitles));
+      return Object.assign([], transformSonglist(action.data, action.removableTitles));
     case types.SONGLIST_RESET:
       return [];
     default:
@@ -35,7 +35,7 @@ const songlist = (state = initialState.songlist, action) => {
 const playlist = (state = initialState.playlist, action) => {
   switch (action.type) {
     case types.SONG_PLAYLIST_LOAD_SUCCESS:
-      return Object.assign([], state, transformSongPlaylist(action.data, action.removableTitles, action.title));
+      return Object.assign([], transformSongPlaylist(action.data, action.removableTitles, action.title));
     case types.SONG_PLAYLIST_RESET:
       return [];
     default:

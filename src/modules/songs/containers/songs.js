@@ -5,7 +5,7 @@ import { View, ScrollView, ActivityIndicator, ImageBackground, Text, TouchableWi
 import { Card } from 'react-native-elements';
 import { isEmpty } from 'lodash';
 
-import { loadSongs, resetSongList, resetSongPlayList } from '../store/actions';
+import { loadSongs } from '../store/actions';
 import { getUpdatedAt, getSongs } from '../store/selectors';
 import { getTime } from '../../../helpers';
 
@@ -18,9 +18,7 @@ class Songs extends Component {
     static propTypes = {
       songs: PropTypes.arrayOf(PropTypes.object),
       updatedAt: PropTypes.number,
-      loadSongs: PropTypes.func.isRequired,
-      resetSongList: PropTypes.func.isRequired,
-      resetSongPlayList: PropTypes.func.isRequired
+      loadSongs: PropTypes.func.isRequired
     }
 
     static defaultProps = {
@@ -38,7 +36,7 @@ class Songs extends Component {
     }
 
     componentDidMount() {
-      const { songs, updatedAt, loadSongs, resetSongList, resetSongPlayList } = this.props;
+      const { songs, updatedAt, loadSongs } = this.props;
 
       NetInfo.isConnected.fetch().then((isConnected) => {
         if (isConnected) {
@@ -50,10 +48,6 @@ class Songs extends Component {
             console.log('songs already loaded, loading from props');
             this.setState({ isReady: true, isConnected: true });
           }
-
-          // reset loaded playlist data in case it did not clear
-          resetSongList();
-          resetSongPlayList();
         } else {
           this.setState({ isReady: true, isConnected: false });
         }
@@ -130,9 +124,7 @@ const mapStateToProps = (state) => ({
 
 function mapDispatchToProps(dispatch) {
   return {
-    loadSongs: () => dispatch(loadSongs()),
-    resetSongList: () => dispatch(resetSongList()),
-    resetSongPlayList: () => dispatch(resetSongPlayList())
+    loadSongs: () => dispatch(loadSongs())
   };
 }
 

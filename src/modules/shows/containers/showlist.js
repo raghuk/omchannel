@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { View, ScrollView, ActivityIndicator, ImageBackground, Text, TouchableWithoutFeedback } from 'react-native';
 import { Card } from 'react-native-elements';
 
-import { isEmpty } from 'lodash';
-
 import { loadShowList, resetShowList } from '../store/actions';
 import { getApiKey, getRemovableTitles, getShowList, getErrorStatus } from '../store/selectors';
 
@@ -40,15 +38,10 @@ class ShowList extends Component {
     }
 
     componentDidMount() {
-      const { apiKey, showList, removableTitles, loadShowList, navigation } = this.props;
+      const { apiKey, removableTitles, loadShowList, navigation } = this.props;
       const ids = navigation.state.params.show.playlists || [];
 
-      if (isEmpty(showList)) {
-        loadShowList(ids, apiKey, removableTitles);
-      } else {
-        console.log('show list already loaded, loading from props');
-        this.setState({ isReady: true });
-      }
+      loadShowList(ids, apiKey, removableTitles);
     }
 
     componentWillReceiveProps() {

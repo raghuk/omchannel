@@ -31,7 +31,6 @@ class LiveTv extends Component {
   onRouteStateChanged = (route) => {
     const { navigation } = this.props;
     if (navigation.state.routeName === route.routeName && navigation.state.key === route.key) {
-      this.videoRef.playAsync();
       ScreenOrientation.allowAsync(ScreenOrientation.Orientation.ALL);
     } else {
       this.videoRef.stopAsync();

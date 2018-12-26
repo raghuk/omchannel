@@ -7,8 +7,8 @@ import { isEmpty } from 'lodash';
 
 import { Video, ScreenOrientation } from 'expo';
 
-import { loadShows } from '../../shows/store/actions';
-import { loadSongs } from '../../songs/store/actions';
+import { loadShows, resetShowList, resetShowPlayList } from '../../shows/store/actions';
+import { loadSongs, resetSongList, resetSongPlayList } from '../../songs/store/actions';
 import { getUpdatedAt, getShows } from '../../shows/store/selectors';
 import { getSongs } from '../../songs/store/selectors';
 import { getTime } from '../../../helpers';
@@ -26,7 +26,11 @@ class Home extends Component {
       shows: PropTypes.arrayOf(PropTypes.object),
       updatedAt: PropTypes.number,
       loadShows: PropTypes.func.isRequired,
-      loadSongs: PropTypes.func.isRequired
+      loadSongs: PropTypes.func.isRequired,
+      resetShowList: PropTypes.func.isRequired,
+      resetShowPlayList: PropTypes.func.isRequired,
+      resetSongList: PropTypes.func.isRequired,
+      resetSongPlayList: PropTypes.func.isRequired
     }
 
     static defaultProps = {
@@ -47,6 +51,7 @@ class Home extends Component {
 
     componentDidMount() {
       const { shows, updatedAt, loadShows, loadSongs } = this.props;
+      const { resetShowList, resetShowPlayList, resetSongList, resetSongPlayList } = this.props;
 
       NetInfo.isConnected.fetch().then((isConnected) => {
         if (isConnected) {
@@ -59,6 +64,12 @@ class Home extends Component {
             console.log('data already loaded, loading from props');
             this.setState({ isReady: true, isConnected: true });
           }
+
+          // reset loaded playlist data in case it did not clear
+          resetShowList();
+          resetShowPlayList();
+          resetSongList();
+          resetSongPlayList();
         } else {
           this.setState({ isReady: true, isConnected: false });
         }
@@ -222,7 +233,11 @@ const mapStateToProps = (state) => ({
 function mapDispatchToProps(dispatch) {
   return {
     loadShows: () => dispatch(loadShows()),
-    loadSongs: () => dispatch(loadSongs())
+    resetShowList: () => dispatch(resetShowList()),
+    resetShowPlayList: () => dispatch(resetShowPlayList()),
+    loadSongs: () => dispatch(loadSongs()),
+    resetSongList: () => dispatch(resetSongList()),
+    resetSongPlayList: () => dispatch(resetSongPlayList())
   };
 }
 
