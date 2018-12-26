@@ -87,13 +87,13 @@ export function resetSongList() {
 
 
 // PlayList
-function getPlayList() {
+function getSongPlayList() {
   return {
     type: types.SONG_PLAYLIST_LOAD
   };
 }
 
-function getPlayListSuccess(data, title, removableTitles) {
+function getSongPlayListSuccess(data, title, removableTitles) {
   return {
     type: types.SONG_PLAYLIST_LOAD_SUCCESS,
     data,
@@ -102,26 +102,26 @@ function getPlayListSuccess(data, title, removableTitles) {
   };
 }
 
-function getPlayListFailure(error) {
+function getSongPlayListFailure(error) {
   return {
     type: types.SONG_PLAYLIST_LOAD_FAILURE,
     error
   };
 }
 
-export function loadPlayList(title = '', id = '', apiKey = '', removableTitles = []) {
+export function loadSongPlayList(title = '', id = '', apiKey = '', removableTitles = []) {
   const url = `${SEARCH_PLAYLIST_ITEMS_URL}?playlistId=${id}&key=${apiKey}&part=snippet&maxResults=50`;
 
   return (dispatch) => {
-    dispatch(getPlayList());
+    dispatch(getSongPlayList());
 
     return axios.get(url)
-      .then((response) => dispatch(getPlayListSuccess(response.data, title, removableTitles)))
-      .catch((err) => dispatch(getPlayListFailure(err)));
+      .then((response) => dispatch(getSongPlayListSuccess(response.data, title, removableTitles)))
+      .catch((err) => dispatch(getSongPlayListFailure(err)));
   };
 }
 
-export function resetPlayList() {
+export function resetSongPlayList() {
   return {
     type: types.SONG_PLAYLIST_RESET
   };

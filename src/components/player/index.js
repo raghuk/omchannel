@@ -1,10 +1,19 @@
 import React, { PureComponent } from 'react';
 import { View, WebView } from 'react-native';
+import { ScreenOrientation } from 'expo';
 
 import styles from './styles';
 
 
 class Player extends PureComponent {
+  componentDidMount() {
+    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.ALL);
+  }
+
+  componentWillUnmount() {
+    ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT);
+  }
+
   render() {
     const { navigation } = this.props;
 
@@ -18,7 +27,7 @@ class Player extends PureComponent {
           startInLoadingState
           scalesPageToFit
           javaScriptEnabled
-          style={{ flex: 1 }}
+          style={styles.webView}
         />
       </View>
     );

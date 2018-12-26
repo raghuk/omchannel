@@ -20,17 +20,15 @@ class SongList extends Component {
       songList: PropTypes.arrayOf(PropTypes.object),
       removableTitles: PropTypes.arrayOf(PropTypes.string),
       errorStatus: PropTypes.bool,
-      loadSongList: PropTypes.func,
-      resetSongList: PropTypes.func
+      loadSongList: PropTypes.func.isRequired,
+      resetSongList: PropTypes.func.isRequired
     }
 
     static defaultProps = {
       apiKey: '',
       songList: [],
       removableTitles: [],
-      errorStatus: false,
-      loadSongList: () => {},
-      resetSongList: () => {}
+      errorStatus: false
     }
 
     constructor(props) {

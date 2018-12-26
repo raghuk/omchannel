@@ -6,7 +6,7 @@ import { Card } from 'react-native-elements';
 
 import { isEmpty } from 'lodash';
 
-import { loadPlayList, resetPlayList } from '../store/actions';
+import { loadShowPlayList, resetShowPlayList } from '../store/actions';
 import { getApiKey, getRemovableTitles, getPlayList } from '../store/selectors';
 
 import styles from './styles';
@@ -19,8 +19,8 @@ class ShowPlaylist extends Component {
       apiKey: PropTypes.string,
       playList: PropTypes.arrayOf(PropTypes.object),
       removableTitles: PropTypes.arrayOf(PropTypes.string),
-      loadPlayList: PropTypes.func.isRequired,
-      resetPlayList: PropTypes.func.isRequired
+      loadShowPlayList: PropTypes.func.isRequired,
+      resetShowPlayList: PropTypes.func.isRequired
     }
 
     static defaultProps = {
@@ -38,11 +38,11 @@ class ShowPlaylist extends Component {
     }
 
     componentDidMount() {
-      const { apiKey, playList, removableTitles, loadPlayList, navigation } = this.props;
+      const { apiKey, playList, removableTitles, loadShowPlayList, navigation } = this.props;
       const playlist = navigation.state.params.playlist || [];
 
       if (isEmpty(playList)) {
-        loadPlayList(playlist.title, playlist.id, apiKey, removableTitles);
+        loadShowPlayList(playlist.title, playlist.id, apiKey, removableTitles);
       } else {
         console.log('play list already loaded, loading from props');
         this.setState({ isReady: true });
@@ -57,8 +57,8 @@ class ShowPlaylist extends Component {
     }
 
     componentWillUnmount() {
-      const { resetPlayList } = this.props;
-      resetPlayList();
+      const { resetShowPlayList } = this.props;
+      resetShowPlayList();
     }
 
     onCardPress = (item) => {
@@ -123,8 +123,8 @@ const mapStateToProps = (state) => ({
 
 function bindAction(dispatch) {
   return {
-    loadPlayList: (title, id, key, removableTitles) => dispatch(loadPlayList(title, id, key, removableTitles)),
-    resetPlayList: () => dispatch(resetPlayList())
+    loadShowPlayList: (title, id, key, removableTitles) => dispatch(loadShowPlayList(title, id, key, removableTitles)),
+    resetShowPlayList: () => dispatch(resetShowPlayList())
   };
 }
 

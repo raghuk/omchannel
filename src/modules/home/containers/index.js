@@ -5,7 +5,7 @@ import { View, ScrollView, ActivityIndicator, ImageBackground, Text, Alert, NetI
 import { Card } from 'react-native-elements';
 import { isEmpty } from 'lodash';
 
-import { Video } from 'expo';
+import { Video, ScreenOrientation } from 'expo';
 
 import { loadShows } from '../../shows/store/actions';
 import { loadSongs } from '../../songs/store/actions';
@@ -66,6 +66,7 @@ class Home extends Component {
         return isConnected;
       }).catch((e) => { console.log(e); });
 
+      ScreenOrientation.allowAsync(ScreenOrientation.Orientation.PORTRAIT);
       this.routeSubscription = DeviceEventEmitter.addListener('routeStateChanged', this.onRouteStateChanged);
     }
 

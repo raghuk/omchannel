@@ -20,17 +20,15 @@ class ShowList extends Component {
       showList: PropTypes.arrayOf(PropTypes.object),
       removableTitles: PropTypes.arrayOf(PropTypes.string),
       errorStatus: PropTypes.bool,
-      loadShowList: PropTypes.func,
-      resetShowList: PropTypes.func
+      loadShowList: PropTypes.func.isRequired,
+      resetShowList: PropTypes.func.isRequired
     }
 
     static defaultProps = {
       apiKey: '',
       showList: [],
       removableTitles: [],
-      errorStatus: false,
-      loadShowList: () => {},
-      resetShowList: () => {}
+      errorStatus: false
     }
 
     constructor(props) {

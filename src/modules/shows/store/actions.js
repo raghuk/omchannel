@@ -87,13 +87,13 @@ export function resetShowList() {
 
 
 // PlayList
-function getPlayList() {
+function getShowPlayList() {
   return {
     type: types.SHOW_PLAYLIST_LOAD
   };
 }
 
-function getPlayListSuccess(data, title, removableTitles) {
+function getShowPlayListSuccess(data, title, removableTitles) {
   return {
     type: types.SHOW_PLAYLIST_LOAD_SUCCESS,
     data,
@@ -102,26 +102,26 @@ function getPlayListSuccess(data, title, removableTitles) {
   };
 }
 
-function getPlayListFailure(error) {
+function getShowPlayListFailure(error) {
   return {
     type: types.SHOW_PLAYLIST_LOAD_FAILURE,
     error
   };
 }
 
-export function loadPlayList(title = '', id = '', apiKey = '', removableTitles = []) {
+export function loadShowPlayList(title = '', id = '', apiKey = '', removableTitles = []) {
   const url = `${SEARCH_PLAYLIST_ITEMS_URL}?playlistId=${id}&key=${apiKey}&part=snippet&maxResults=50`;
 
   return (dispatch) => {
-    dispatch(getPlayList());
+    dispatch(getShowPlayList());
 
     return axios.get(url)
-      .then((response) => dispatch(getPlayListSuccess(response.data, title, removableTitles)))
-      .catch((err) => dispatch(getPlayListFailure(err)));
+      .then((response) => dispatch(getShowPlayListSuccess(response.data, title, removableTitles)))
+      .catch((err) => dispatch(getShowPlayListFailure(err)));
   };
 }
 
-export function resetPlayList() {
+export function resetShowPlayList() {
   return {
     type: types.SHOW_PLAYLIST_RESET
   };
