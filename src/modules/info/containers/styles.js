@@ -1,12 +1,16 @@
 import { Dimensions, StyleSheet } from 'react-native';
 
-const { height } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
+
+const viewWidth = width * 0.95;
+const viewHeight = (9 / 16) * viewWidth;
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f1f5f8',
-    overflow: 'hidden'
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f1f5f8'
   },
   content: {
     flex: 1,
@@ -34,5 +38,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: height * 0.75
+  },
+  videoPlayer: {
+    width: viewWidth,
+    height: viewHeight,
+    alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: '#efefef'
   }
 });

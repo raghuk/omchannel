@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { View, ScrollView, ActivityIndicator, ImageBackground, Text, Alert, NetInfo, FlatList, TouchableWithoutFeedback } from 'react-native';
+import { View, ScrollView, ActivityIndicator, ImageBackground, Text, Alert, NetInfo, FlatList, TouchableWithoutFeedback, DeviceEventEmitter } from 'react-native';
 import { Card } from 'react-native-elements';
 import { isEmpty } from 'lodash';
 
 import { Video } from 'expo';
-import VideoPlayer from '@expo/videoplayer';
 
 import { loadShows } from '../../shows/store/actions';
 import { loadSongs } from '../../songs/store/actions';
@@ -66,10 +65,26 @@ class Home extends Component {
 
         return isConnected;
       }).catch((e) => { console.log(e); });
+
+      this.routeSubscription = DeviceEventEmitter.addListener('routeStateChanged', this.onRouteStateChanged);
     }
 
     componentWillReceiveProps() {
       this.setState({ isReady: true, isConnected: true });
+    }
+
+    componentWillUnmount() {
+      this.routeSubscription.remove();
+    }
+
+    onRouteStateChanged = (route) => {
+      const { navigation } = this.props;
+      const { showLive } = this.state;
+
+      if (navigation.state.routeName !== route.routeName && navigation.state.key !== route.key && showLive) {
+        this.videoRef.stopAsync();
+        this.setState({ showLive: false });
+      }
     }
 
     renderContent = () => {
@@ -99,20 +114,17 @@ class Home extends Component {
 
       if (showLive) {
         return (
-          <View style={{ flex: 1, justifyContent: 'center', borderRadius: 10, overflow: 'hidden' }}>
-            <VideoPlayer
-              videoProps={{
-                shouldPlay: true,
-                resizeMode: Video.RESIZE_MODE_CONTAIN,
-                source: {
-                  uri: WEBCAST_LIVE_URL
-                }
-              }}
-              showControlsOnLoad={false}
-              isPortrait
-              switchToLandscape={this.switchToLandscape}
-              switchToPortrait={this.switchToPortrait}
-              playFromPositionMillis={0}
+          <View style={styles.videoView}>
+            <Video
+              ref={(component) => { this.videoRef = component; }}
+              source={{ uri: WEBCAST_LIVE_URL }}
+              rate={1.0}
+              volume={1.0}
+              isMuted={false}
+              resizeMode={Video.RESIZE_MODE_COVER}
+              shouldPlay
+              useNativeControls={false}
+              style={styles.videoPlayer}
             />
           </View>
         );
@@ -122,7 +134,7 @@ class Home extends Component {
         <TouchableWithoutFeedback key="player" onPress={() => this.onPlayPress()}>
           <ImageBackground
             imageStyle={{ resizeMode: 'cover' }}
-            style={{ flex: 1, justifyContent: 'center', borderRadius: 10, overflow: 'hidden' }}
+            style={styles.videoView}
             source={playerImage}
           />
         </TouchableWithoutFeedback>

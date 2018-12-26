@@ -3,6 +3,9 @@ import { getPlatformElevation } from '../../../utils';
 
 const { width, height } = Dimensions.get('window');
 
+const viewWidth = width * 0.95;
+const viewHeight = (9 / 16) * viewWidth;
+
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -31,6 +34,12 @@ export default StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: '#372737'
   },
+  videoView: {
+    flex: 1,
+    justifyContent: 'center',
+    borderRadius: 10,
+    overflow: 'hidden'
+  },
   videoContainer: {
     height: 175,
     margin: 10,
@@ -38,6 +47,11 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: '#efefef',
     ...getPlatformElevation(2)
+  },
+  videoPlayer: {
+    width: viewWidth,
+    height: viewHeight,
+    alignSelf: 'center'
   },
   cardContainer: {
     width: width * 0.40,
