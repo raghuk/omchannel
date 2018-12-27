@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { View, ScrollView, ActivityIndicator, ImageBackground, Text, TouchableWithoutFeedback } from 'react-native';
 import { Card } from 'react-native-elements';
+import { isEmpty } from 'lodash';
 
 import { loadSongList, resetSongList } from '../store/actions';
 import { getApiKey, getRemovableTitles, getSongList, getErrorStatus } from '../store/selectors';
@@ -10,6 +11,7 @@ import { getApiKey, getRemovableTitles, getSongList, getErrorStatus } from '../s
 import styles from './styles';
 
 const loaderImage = require('../../../../assets/images/loader.png');
+const playlistImage = require('../../../../assets/images/playlist.jpg');
 
 
 class SongList extends Component {
@@ -70,7 +72,7 @@ class SongList extends Component {
     renderItem = (item) => (
       <TouchableWithoutFeedback key={item.id} onPress={() => this.onCardPress(item)}>
         <Card
-          image={{ uri: item.thumbnailUrl }}
+          image={isEmpty(item.thumbnailUrl) ? playlistImage : { uri: item.thumbnailUrl }}
           imageStyle={styles.cardImage}
           containerStyle={[styles.cardContainer, styles.cardHeight]}
         >

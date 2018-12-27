@@ -45,5 +45,8 @@ export default StyleSheet.create({
     alignSelf: 'center',
     borderWidth: 1,
     borderColor: '#efefef'
+  },
+  last: {
+    marginBottom: 40
   }
 });

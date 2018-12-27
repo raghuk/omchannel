@@ -5,6 +5,8 @@ import { View, ScrollView, ActivityIndicator, ImageBackground, Text, TouchableWi
 import { Card } from 'react-native-elements';
 import { isEmpty } from 'lodash';
 
+import AnimatedCard from '../../../components/animated/card';
+
 import { loadSongs } from '../store/actions';
 import { getUpdatedAt, getSongs } from '../store/selectors';
 import { getTime } from '../../../helpers';
@@ -67,20 +69,22 @@ class Songs extends Component {
 
     renderList = (items) => (
       <View style={styles.listView}>
-        {items.map((i) => this.renderItem(i))}
+        {items.map((i, index) => this.renderItem(i, index))}
       </View>
     );
 
-    renderItem = (item) => (
-      <TouchableWithoutFeedback key={item.title} onPress={() => this.onCardPress(item)}>
-        <Card
-          image={{ uri: item.thumbnailUrl }}
-          imageStyle={styles.cardImage}
-          containerStyle={styles.cardContainer}
-        >
-          <Text numberOfLines={2} style={styles.cardTitle}>{item.title.toUpperCase()}</Text>
-        </Card>
-      </TouchableWithoutFeedback>
+    renderItem = (item, index) => (
+      <AnimatedCard key={index} index={index}>
+        <TouchableWithoutFeedback key={item.title} onPress={() => this.onCardPress(item)}>
+          <Card
+            image={{ uri: item.thumbnailUrl }}
+            imageStyle={styles.cardImage}
+            containerStyle={styles.cardContainer}
+          >
+            <Text numberOfLines={2} style={styles.cardTitle}>{item.title.toUpperCase()}</Text>
+          </Card>
+        </TouchableWithoutFeedback>
+      </AnimatedCard>
     );
 
     showAlert = () => {

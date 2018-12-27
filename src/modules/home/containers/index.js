@@ -6,6 +6,7 @@ import { Card } from 'react-native-elements';
 import { isEmpty } from 'lodash';
 
 import { Video, ScreenOrientation } from 'expo';
+import AnimatedCard from '../../../components/animated/card';
 
 import { loadShows, resetShowList, resetShowPlayList } from '../../shows/store/actions';
 import { loadSongs, resetSongList, resetSongPlayList } from '../../songs/store/actions';
@@ -113,7 +114,7 @@ class Home extends Component {
             {this.renderList(shows, 'shows')}
           </View>
 
-          <View style={styles.content}>
+          <View style={[styles.content, styles.last]}>
             <Text style={styles.header}>Songs</Text>
             {this.renderList(songs, 'songs')}
           </View>
@@ -157,26 +158,27 @@ class Home extends Component {
       <FlatList
         horizontal
         data={data}
-        renderItem={({ item }) => this.renderItem(item, name)}
+        renderItem={({ item, index }) => this.renderItem(item, name, index)}
         keyExtractor={(item) => item.title}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
       />
     );
 
-    renderItem = (item, name) => {
+    renderItem = (item, name, index) => {
       const count = item.playlists.length;
 
       return (
-        <TouchableWithoutFeedback key={item.title} onPress={() => this.onCardPress(item, name)}>
-          <Card
-            image={{ uri: item.thumbnailUrl }}
-            imageStyle={styles.cardImage}
-            containerStyle={styles.cardContainer}
-          >
-            <Text numberOfLines={1} style={styles.cardTitle}>{item.title}</Text>
-            {name === 'shows' && <Text numberOfLines={1} style={styles.cardSubtitle}>{count} Shows</Text>}
-          </Card>
-        </TouchableWithoutFeedback>
+        <AnimatedCard key={index} index={index}>
+          <TouchableWithoutFeedback onPress={() => this.onCardPress(item, name)}>
+            <Card
+              image={{ uri: item.thumbnailUrl }}
+              imageStyle={styles.cardImage}
+              containerStyle={styles.cardContainer}
+            >
+              <Text numberOfLines={1} style={styles.cardTitle}>{item.title}</Text>
+              {name === 'shows' && <Text numberOfLines={1} style={styles.cardSubtitle}>{count} Shows</Text>}
+            </Card>
+          </TouchableWithoutFeedback>
+        </AnimatedCard>
       );
     }
 

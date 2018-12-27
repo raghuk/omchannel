@@ -26,7 +26,7 @@ class About extends Component {
         </Text>
         <Text style={styles.title}>Head Quarter</Text>
         <Text style={styles.info}>Godlywoodstudio, Manmohinivan Complex, Shantivan, Abu Road (Raj.) 307510</Text>
-        <Text style={styles.info}>Contact No: 02974229988</Text>
+        <Text style={[styles.info, styles.last]}>Contact No: 02974229988</Text>
       </ScrollView>
     );
   }

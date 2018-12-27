@@ -16,7 +16,7 @@ export default StyleSheet.create({
     backgroundColor: '#f1f5f8'
   },
   drawerLogo: {
-    width: deviceWidth * 0.85,
+    width: deviceWidth * 0.55,
     height: deviceHeight * 0.25,
     resizeMode: 'contain',
     marginLeft: 'auto',

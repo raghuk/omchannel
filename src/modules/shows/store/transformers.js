@@ -29,7 +29,7 @@ export function transformShowlist(data) {
       return {
         id,
         title: upperFirst(trim(snippet.title)),
-        thumbnailUrl: snippet.thumbnails.medium.url, // default, medium, high, standard, maxres
+        thumbnailUrl: snippet.thumbnails ? snippet.thumbnails.medium.url : '', // default, medium, high, standard, maxres
         publishedAt: snippet.publishedAt,
         channelId: snippet.channelId,
         count: contentDetails.itemCount
@@ -62,7 +62,7 @@ export function transformShowPlaylist(data, removableTitles, title) {
       return {
         id,
         title: upperFirst(trim(videoTitle)),
-        thumbnailUrl: snippet.thumbnails.medium.url, // default, medium, high, standard, maxres
+        thumbnailUrl: snippet.thumbnails ? snippet.thumbnails.medium.url : '', // default, medium, high, standard, maxres
         publishedAt: snippet.publishedAt,
         channelId: snippet.channelId,
         videoId: snippet.resourceId.videoId

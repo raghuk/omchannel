@@ -28,12 +28,6 @@ export default StyleSheet.create({
     fontFamily: 'Opensans',
     paddingHorizontal: 15
   },
-  separator: {
-    height: '45%',
-    width: 1,
-    alignSelf: 'center',
-    backgroundColor: '#372737'
-  },
   videoView: {
     flex: 1,
     justifyContent: 'center',
@@ -54,7 +48,7 @@ export default StyleSheet.create({
     alignSelf: 'center'
   },
   cardContainer: {
-    width: width * 0.40,
+    width: width * 0.45,
     borderRadius: 10,
     marginBottom: 10,
     ...getPlatformElevation(2)
@@ -67,13 +61,6 @@ export default StyleSheet.create({
     borderTopRightRadius: 10,
     overflow: 'hidden'
   },
-  cardCaption: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingBottom: 5,
-    paddingHorizontal: 10
-  },
   cardTitle: {
     color: '#372737',
     fontSize: 16,
@@ -84,5 +71,8 @@ export default StyleSheet.create({
     fontSize: 14,
     fontFamily: 'Titillium',
     marginTop: 2
+  },
+  last: {
+    marginBottom: 20
   }
 });

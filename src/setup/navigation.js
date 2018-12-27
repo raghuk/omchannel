@@ -133,7 +133,7 @@ const MainNavigator = createDrawerNavigator(
     }
   },
   {
-    drawerWidth: deviceWidth * 0.82,
+    drawerWidth: deviceWidth * 0.75,
     drawerPosition: 'left',
     initialRouteName: 'HomeTab',
     contentComponent: (props) => <View style={{ flex: 1 }}><Sidebar {...props} /></View>,

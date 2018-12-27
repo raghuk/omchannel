@@ -5,6 +5,8 @@ import { View, ScrollView, ActivityIndicator, ImageBackground, Text, TouchableWi
 import { Card } from 'react-native-elements';
 import { isEmpty } from 'lodash';
 
+import AnimatedCard from '../../../components/animated/card';
+
 import { loadShows } from '../store/actions';
 import { getUpdatedAt, getShows } from '../store/selectors';
 import { getTime } from '../../../helpers';
@@ -67,26 +69,28 @@ class Shows extends Component {
 
     renderList = (items) => (
       <View style={styles.listView}>
-        {items.map((i) => this.renderItem(i))}
+        {items.map((i, index) => this.renderItem(i, index))}
       </View>
     );
 
-    renderItem = (item) => {
+    renderItem = (item, index) => {
       const count = item.playlists.length;
 
       return (
-        <TouchableWithoutFeedback key={item.title} onPress={() => this.onCardPress(item)}>
-          <Card
-            image={{ uri: item.thumbnailUrl }}
-            imageStyle={styles.cardImage}
-            containerStyle={styles.cardContainer}
-          >
-            <View style={styles.cardCaption}>
-              <Text numberOfLines={1} style={styles.cardTitle}>{item.title.toUpperCase()}</Text>
-              <Text numberOfLines={1} style={styles.cardNote}>{count} Shows</Text>
-            </View>
-          </Card>
-        </TouchableWithoutFeedback>
+        <AnimatedCard key={index} index={index}>
+          <TouchableWithoutFeedback key={item.title} onPress={() => this.onCardPress(item)}>
+            <Card
+              image={{ uri: item.thumbnailUrl }}
+              imageStyle={styles.cardImage}
+              containerStyle={styles.cardContainer}
+            >
+              <View style={styles.cardCaption}>
+                <Text numberOfLines={1} style={styles.cardTitle}>{item.title.toUpperCase()}</Text>
+                <Text numberOfLines={1} style={styles.cardNote}>{count} Shows</Text>
+              </View>
+            </Card>
+          </TouchableWithoutFeedback>
+        </AnimatedCard>
       );
     }
 
