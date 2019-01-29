@@ -1,0 +1,126 @@
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { View, ScrollView, ActivityIndicator, ImageBackground, Text, TouchableWithoutFeedback } from 'react-native';
+import { Card } from 'react-native-elements';
+import { isEmpty } from 'lodash';
+
+import { loadNewsPlayList, resetNewsPlayList } from '../store/actions';
+import { getApiKey, getRemovableTitles, getPlayList } from '../store/selectors';
+
+import styles from './styles';
+
+const loaderImage = require('../../../../assets/images/loader.png');
+const playlistImage = require('../../../../assets/images/playlist.jpg');
+
+
+class NewsPlaylist extends Component {
+    static propTypes = {
+      apiKey: PropTypes.string,
+      playList: PropTypes.arrayOf(PropTypes.object),
+      removableTitles: PropTypes.arrayOf(PropTypes.string),
+      loadNewsPlayList: PropTypes.func.isRequired,
+      resetNewsPlayList: PropTypes.func.isRequired
+    }
+
+    static defaultProps = {
+      apiKey: '',
+      playList: [],
+      removableTitles: []
+    }
+
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        isReady: false
+      };
+    }
+
+    componentDidMount() {
+      const { apiKey, removableTitles, loadNewsPlayList, navigation } = this.props;
+      const playlist = navigation.state.params.playlist || [];
+
+      loadNewsPlayList(playlist.title, playlist.id, apiKey, removableTitles);
+    }
+
+    componentWillReceiveProps() {
+      const { isReady } = this.state;
+      if (!isReady) {
+        this.setState({ isReady: true });
+      }
+    }
+
+    componentWillUnmount() {
+      const { resetNewsPlayList } = this.props;
+      resetNewsPlayList();
+    }
+
+    onCardPress = (item) => {
+      const { navigation } = this.props;
+      navigation.navigate('NewsPlayer', { video: item });
+    }
+
+    renderList = (items) => (
+      <View style={styles.listView}>
+        {items.map((i) => this.renderItem(i))}
+      </View>
+    );
+
+    renderItem = (item) => (
+      <TouchableWithoutFeedback key={item.id} onPress={() => this.onCardPress(item)}>
+        <Card
+          image={isEmpty(item.thumbnailUrl) ? playlistImage : { uri: item.thumbnailUrl }}
+          imageStyle={styles.cardImage}
+          containerStyle={[styles.cardContainer, styles.cardHeight]}
+        >
+          <Text numberOfLines={3} style={styles.cardSubtitle}>{item.title}</Text>
+        </Card>
+      </TouchableWithoutFeedback>
+    );
+
+    render() {
+      const { isReady } = this.state;
+      const { playList } = this.props;
+
+      const loadingInfo = (
+        <ImageBackground
+          imageStyle={{ resizeMode: 'cover' }}
+          style={styles.loader}
+          source={loaderImage}
+        >
+          <ActivityIndicator size="large" color="#5C5679" />
+        </ImageBackground>
+      );
+
+      if (!isReady) {
+        return (
+          <View style={styles.content}>
+            {loadingInfo}
+          </View>
+        );
+      }
+
+      return (
+        <ScrollView style={styles.container}>
+          {this.renderList(playList)}
+        </ScrollView>
+      );
+    }
+}
+
+
+const mapStateToProps = (state) => ({
+  apiKey: getApiKey(state),
+  playList: getPlayList(state),
+  removableTitles: getRemovableTitles(state)
+});
+
+function bindAction(dispatch) {
+  return {
+    loadNewsPlayList: (title, id, key, removableTitles) => dispatch(loadNewsPlayList(title, id, key, removableTitles)),
+    resetNewsPlayList: () => dispatch(resetNewsPlayList())
+  };
+}
+
+export default connect(mapStateToProps, bindAction)(NewsPlaylist);

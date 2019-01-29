@@ -8,6 +8,7 @@ import Sidebar from '../components/sidebar';
 
 import Home from '../modules/home';
 import { About, LiveTv } from '../modules/info';
+import NewsTab from './stacks/news';
 import ShowsTab from './stacks/show';
 import SongsTab from './stacks/song';
 
@@ -120,6 +121,14 @@ const MainNavigator = createDrawerNavigator(
       path: '/songs',
       navigationOptions: () => ({
         drawerLabel: 'Songs',
+        drawerIcon: <Icon name="ios-musical-notes" type="ionicon" color="#372737" size={28} />
+      })
+    },
+    NewsTab: {
+      screen: NewsTab,
+      path: '/news',
+      navigationOptions: () => ({
+        drawerLabel: 'News',
         drawerIcon: <Icon name="ios-musical-notes" type="ionicon" color="#372737" size={28} />
       })
     },
