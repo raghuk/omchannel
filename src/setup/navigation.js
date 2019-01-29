@@ -129,7 +129,7 @@ const MainNavigator = createDrawerNavigator(
       path: '/news',
       navigationOptions: () => ({
         drawerLabel: 'News',
-        drawerIcon: <Icon name="ios-musical-notes" type="ionicon" color="#372737" size={28} />
+        drawerIcon: <Icon name="ios-paper" type="ionicon" color="#372737" size={28} />
       })
     },
     AboutTab: {

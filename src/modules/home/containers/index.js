@@ -8,6 +8,7 @@ import { isEmpty } from 'lodash';
 import { Video, ScreenOrientation } from 'expo';
 import AnimatedCard from '../../../components/animated/card';
 
+import { loadNews, resetNewsList, resetNewsPlayList } from '../../news/store/actions';
 import { loadShows, resetShowList, resetShowPlayList } from '../../shows/store/actions';
 import { loadSongs, resetSongList, resetSongPlayList } from '../../songs/store/actions';
 import { getUpdatedAt, getShows } from '../../shows/store/selectors';
@@ -27,11 +28,14 @@ class Home extends Component {
       shows: PropTypes.arrayOf(PropTypes.object),
       updatedAt: PropTypes.number,
       loadShows: PropTypes.func.isRequired,
-      loadSongs: PropTypes.func.isRequired,
       resetShowList: PropTypes.func.isRequired,
       resetShowPlayList: PropTypes.func.isRequired,
+      loadSongs: PropTypes.func.isRequired,
       resetSongList: PropTypes.func.isRequired,
-      resetSongPlayList: PropTypes.func.isRequired
+      resetSongPlayList: PropTypes.func.isRequired,
+      loadNews: PropTypes.func.isRequired,
+      resetNewsList: PropTypes.func.isRequired,
+      resetNewsPlayList: PropTypes.func.isRequired
     }
 
     static defaultProps = {
@@ -51,8 +55,8 @@ class Home extends Component {
     }
 
     componentDidMount() {
-      const { shows, updatedAt, loadShows, loadSongs } = this.props;
-      const { resetShowList, resetShowPlayList, resetSongList, resetSongPlayList } = this.props;
+      const { shows, updatedAt, loadShows, loadSongs, loadNews } = this.props;
+      const { resetShowList, resetShowPlayList, resetSongList, resetSongPlayList, resetNewsList, resetNewsPlayList } = this.props;
 
       NetInfo.isConnected.fetch().then((isConnected) => {
         if (isConnected) {
@@ -66,11 +70,16 @@ class Home extends Component {
             this.setState({ isReady: true, isConnected: true });
           }
 
+          // always check for latest news
+          loadNews();
+
           // reset loaded playlist data in case it did not clear
           resetShowList();
           resetShowPlayList();
           resetSongList();
           resetSongPlayList();
+          resetNewsList();
+          resetNewsPlayList();
         } else {
           this.setState({ isReady: true, isConnected: false });
         }
@@ -239,7 +248,10 @@ function mapDispatchToProps(dispatch) {
     resetShowPlayList: () => dispatch(resetShowPlayList()),
     loadSongs: () => dispatch(loadSongs()),
     resetSongList: () => dispatch(resetSongList()),
-    resetSongPlayList: () => dispatch(resetSongPlayList())
+    resetSongPlayList: () => dispatch(resetSongPlayList()),
+    loadNews: () => dispatch(loadNews()),
+    resetNewsList: () => dispatch(resetNewsList()),
+    resetNewsPlayList: () => dispatch(resetNewsPlayList())
   };
 }
 
