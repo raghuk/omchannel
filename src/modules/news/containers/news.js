@@ -18,13 +18,13 @@ const loaderImage = require('../../../../assets/images/loader.png');
 
 class News extends Component {
     static propTypes = {
-      songs: PropTypes.arrayOf(PropTypes.object),
+      news: PropTypes.arrayOf(PropTypes.object),
       updatedAt: PropTypes.number,
       loadNews: PropTypes.func.isRequired
     }
 
     static defaultProps = {
-      songs: [],
+      news: [],
       updatedAt: 0
     }
 
@@ -38,16 +38,16 @@ class News extends Component {
     }
 
     componentDidMount() {
-      const { songs, updatedAt, loadNews } = this.props;
+      const { news, updatedAt, loadNews } = this.props;
 
       NetInfo.isConnected.fetch().then((isConnected) => {
         if (isConnected) {
           const diff = getTime(new Date(updatedAt), new Date());
 
-          if (isEmpty(songs) || (diff > 1)) {
+          if (isEmpty(news) || (diff > 1)) {
             loadNews();
           } else {
-            console.log('songs already loaded, loading from props');
+            console.log('news already loaded, loading from props');
             this.setState({ isReady: true, isConnected: true });
           }
         } else {
@@ -64,7 +64,7 @@ class News extends Component {
 
     onCardPress = (item) => {
       const { navigation } = this.props;
-      navigation.navigate('NewsList', { song: item });
+      navigation.navigate('NewsList', { news: item });
     }
 
     renderList = (items) => (
@@ -98,7 +98,7 @@ class News extends Component {
 
     render() {
       const { isReady, isConnected } = this.state;
-      const { songs } = this.props;
+      const { news } = this.props;
 
       const loadingInfo = (
         <ImageBackground
@@ -110,7 +110,7 @@ class News extends Component {
         </ImageBackground>
       );
 
-      const loadContent = isConnected ? this.renderList(songs) : this.showAlert();
+      const loadContent = isConnected ? this.renderList(news) : this.showAlert();
 
       return (
         <ScrollView style={styles.container}>
@@ -122,7 +122,7 @@ class News extends Component {
 
 
 const mapStateToProps = (state) => ({
-  songs: getNews(state),
+  news: getNews(state),
   updatedAt: getUpdatedAt(state)
 });
 

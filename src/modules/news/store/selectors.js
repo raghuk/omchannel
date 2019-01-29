@@ -15,7 +15,7 @@ export function getNews(state) {
 }
 
 export function getNewsList(state) {
-  return state.news.songlist || [];
+  return state.news.newslist || [];
 }
 
 export function getPlayList(state) {
