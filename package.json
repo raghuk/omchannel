@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@expo/videoplayer": "^0.4.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "base-64": "^0.1.0",
     "comment-json": "^1.1.3",
     "expo": "^31.0.2",
